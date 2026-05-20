@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.offset
-
+import android.R.attr.x
+import androidx.compose.runtime.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 
 // Preview
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +37,7 @@ import androidx.compose.ui.Modifier
 
 // Image modifier
 import androidx.compose.foundation.Image
+import androidx.compose.material3.TextField
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.layout.ContentScale
 import com.example.puceats.R
@@ -51,6 +54,11 @@ import androidx.compose.ui.unit.sp
 @Preview
 @Composable
 fun HomeScreen() {
+    // Guarda o texto digitado pelo usuário
+    var searchText by remember {
+
+        mutableStateOf("")
+    }
     Column( //Coluna primária (tela inteira)
         modifier = Modifier
             .fillMaxSize() //Ocupa full size ne
@@ -65,7 +73,7 @@ fun HomeScreen() {
                 .fillMaxWidth()
 
                 // Altura do header
-                .height(180.dp)
+                .height(205.dp)
 
                 // Cor vermelha
                 .background(Color(0xFF700303)),
@@ -84,7 +92,7 @@ fun HomeScreen() {
                     .fillMaxWidth()
 
                     // Espaçamento superior
-                    .padding(top = 24.dp),
+                    .padding(top = 15.dp),
 
                 // Centraliza horizontalmente os itens da Row
                 horizontalArrangement = Arrangement.Center,
@@ -110,19 +118,54 @@ fun HomeScreen() {
 
                 // TEXTO
                 Text(
+
                     text = buildAnnotatedString {
                         withStyle(
                             style = SpanStyle(
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
 
-                            )
-                        ){
+
+                                )
+                        ) {
                             append("PUC")
-
                         }
-                    }
+
+                        // Estilo do "Eats"
+                        withStyle(
+
+                            style = SpanStyle(
+                                fontWeight = FontWeight.Normal
+                            )
+                        ) {
+
+                            append("Eats")
+                        }
+                    },
+
+                    color = Color.White,
+                    fontSize = 32.sp,
+
+                    modifier = Modifier
+                        .offset(x = (-20).dp)
+
                 )
             }
+            TextField(
+                // Texto atual
+                value = searchText,
+
+                // Atualiza quando usuário digita
+                onValueChange = {
+
+                    searchText = it
+                },
+                // Texto placeholder
+                placeholder = {
+
+                    Text("Buscar lanches...")
+                }
+            )
         }
     }
 }
+
